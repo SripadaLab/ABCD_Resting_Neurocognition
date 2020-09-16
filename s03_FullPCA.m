@@ -1,6 +1,6 @@
 %%
 %Setup output file
-OutputFile = [Exp '/Scripts/rest_neurocognition/Results/ABCD_rest_CIFTI_expressions.csv'];
+OutputFile = [Exp '/Results/ABCD_rest_CIFTI_expressions.csv'];
 NumComp = 250;
 
 %%
@@ -36,7 +36,7 @@ fclose(fid);
 
 %%
 %consensus
-betas = load([Exp '/CIFTI/Scripts/rest_neurocognition/Results/mm_betas.csv']);
+betas = load([Exp '/Results/mm_betas.csv']);
 cons = coeffall(:,1:NumComp)*betas;
 
 %%
@@ -45,16 +45,16 @@ zcons = zscore(cons);
 
 close all
 plot_jica_component(cons(:,1)',1,1,2,nets,'Mixed Model Consensus',[1:16]);
-print([Exp '/Scripts/rest_neurocognition/Results/consensus.pdf'],'-dpdf','-r600');
+print([Exp '/Results/consensus.pdf'],'-dpdf','-r600');
 
 tmp = zcons(:,1)';
 tmp = mc_unflatten_upper_triangle(tmp);
 tmp = tmp + tmp';
-save([Exp '/Scripts/rest_neurocognition/Results/consensus_z_square.txt'],'tmp','-ASCII');
+save([Exp '/Results/consensus_z_square.txt'],'tmp','-ASCII');
 
 close all
 plot_jica_component(cons(:,1)',1,1,2,nets,'Mixed Model Consensus',[1:16]);
-print([Exp '/Scripts/rest_neurocognition/Results/consensus.svg'],'-dsvg','-r600');
+print([Exp '/Results/consensus.svg'],'-dsvg','-r600');
 
 
 dmntpn = zeros(418,418);

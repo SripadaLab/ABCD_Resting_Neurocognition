@@ -1,6 +1,4 @@
 %%
-%utility funcions
-addpath /home/slab/users/mangstad/repos/Misc_utils/
 
 NumComp = 250;
 Perms = 10000;
@@ -68,42 +66,7 @@ results_g_lm_nih_perms = mc_bbs_perm(featuremat(subset1,:),nihpheno(subset1,:),n
 results_g_wo_perms = mc_bbs_perm(featuremat(subset2,:),mainpheno(subset2,:),nuisance(subset2,:),folds_sub2,NumComp,Perms,'LOSOPheno',0,'Scores',results_g_white.Aa);
 results_g_wo_nih_perms = mc_bbs_perm(featuremat(subset2,:),nihpheno(subset2,:),nuisance(subset2,:),folds_sub2,NumComp,Perms,'LOSOPheno',0,'Scores',results_g_white.Aa);
 
-results_g_all_perms_dsg = mc_bbs_perm(featuremat,losophenoG,nuisance,folds,NumComp,Perms,'LOSOPheno',0,'Scores',results_g_all.Aa);
-results_g_all_perms_dss1 = mc_bbs_perm(featuremat,losophenoS1,nuisance,folds,NumComp,Perms,'LOSOPheno',0,'Scores',results_g_all.Aa);
-results_g_all_perms_dss2 = mc_bbs_perm(featuremat,losophenoS2,nuisance,folds,NumComp,Perms,'LOSOPheno',0,'Scores',results_g_all.Aa);
-results_g_all_perms_dss3 = mc_bbs_perm(featuremat,losophenoS3,nuisance,folds,NumComp,Perms,'LOSOPheno',0,'Scores',results_g_all.Aa);
-
-%now calculate proper dropsite performance, since LOSOPheno isn't working
-%at the moment for permutations
-
-
-
-
-%permute g pheno and measure dmntpn
-inmask = zeros(418,418);
-for i = 1:max(nets)
-    inmask(nets==i,nets==i) = 1;
-end
-inmask = inmask==1;
-
-dmntpn = zeros(418,418);
-idx = [3,5,8,11,12];
-for i = 1:numel(idx)
-    for j = 1:numel(idx)
-        dmntpn(nets==idx(i),nets==idx(j)) = 1;
-        dmntpn(nets==idx(j),nets==idx(i)) = 1;
-    end
-end
-dmntpn = (dmntpn - inmask)>0;
-inmask = mc_flatten_upper_triangle(inmask);
-dmntpn = mc_flatten_upper_triangle(dmntpn);
-
-mdl_true = fitlm([Aall(good1,1:250) nuisance(good1,:)],dat.G_lavaan(good1));
-zcons = zscore(coeffall(:,1:250)*mdl_true.Coefficients.Estimate(2:251));
-
-supra = abs(zcons)>2;
-supra = supra';
-100*sum(inmask)/numel(inmask)
-100*sum(dmntpn)/numel(dmntpn)
-100*sum(supra.*inmask)/sum(supra)
-100*sum(supra.*dmntpn)/sum(supra)
+results_g_all_perms_dsg = mc_bbs_perm(featuremat,losophenoG,nuisance,folds,NumComp,Perms,'LOSOPheno',1,'Scores',results_g_all.Aa);
+results_g_all_perms_dss1 = mc_bbs_perm(featuremat,losophenoS1,nuisance,folds,NumComp,Perms,'LOSOPheno',1,'Scores',results_g_all.Aa);
+results_g_all_perms_dss2 = mc_bbs_perm(featuremat,losophenoS2,nuisance,folds,NumComp,Perms,'LOSOPheno',1,'Scores',results_g_all.Aa);
+results_g_all_perms_dss3 = mc_bbs_perm(featuremat,losophenoS3,nuisance,folds,NumComp,Perms,'LOSOPheno',1,'Scores',results_g_all.Aa);

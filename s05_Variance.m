@@ -93,4 +93,4 @@ lmt = output(:,15);
 network1 = NetNames(ind(u,1));
 network2 = NetNames(ind(u,2));
 output = table(network1,network2,posneg,g,s1,s2,s3,cardsort,flanker,list,pattern,picture,picvocab,reading,ravlt_sd,ravlt_ld,wiscv,lmt);
-writetable(output,'Results/network_21_suprathreshold.csv');
+writetable(output,[Exp '/Results/network_21_suprathreshold.csv']);

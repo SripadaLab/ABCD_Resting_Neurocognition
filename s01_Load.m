@@ -2,13 +2,13 @@
 %utility funcions
 addpath /home/slab/users/mangstad/repos/Misc_utils/
 
-Exp = '/net/pepper/ABCD/CIFTI/';
+Exp = '/net/pepper/ABCD/CIFTI/Scripts/rest_neurocognition/';
 
 %%
 %Setup files
-DataFile = [Exp '/Scripts/rest_neurocognition/Data/ABCD_rest.csv'];
-CorrTemplate = [Exp '/Rest/Gordon_Sub_Cere/[Subject].txt'];
-NetsFile = [Exp '/Scripts/rest_neurocognition/Data/gordon_sub_cere_parcels.csv'];
+DataFile = [Exp '/Data/ABCD_rest.csv'];
+CorrTemplate = [Exp '/Data/Gordon_Sub_Cere/[Subject].txt'];
+NetsFile = [Exp '/Data/gordon_sub_cere_parcels.csv'];
 
 %%
 %setup
