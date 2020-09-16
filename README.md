@@ -10,7 +10,7 @@ Relies on functions from https://www.github.com/mangstad/Misc_utils
 
 Data files necessary for this analysis should eventually be available through NDAR, will update when that study is live.
 
-## Instructions 
+## Instructions for setup
 
 1. Clone this repository to your computer. `git clone https://github.com/SripadaLab/ABCD_Resting_Neurocognition.git ./ABCD_Resting_Neurocognition`
 
@@ -19,4 +19,15 @@ Data files necessary for this analysis should eventually be available through ND
 1. Edit paths in s01_Load.m and s04_LME.R to point to the correct locations for the scripts and the data.
 
 1. Look at and/or run the example.m script to get an idea of the steps that happen in the different scripts.
+
+## General overview
+In very general terms, our procedure is the following:
+within folds of cross validation
+1. do PCA in training data
+1. use PCA scores in regression model to explain phenotype
+1. apply model to test data and calculate performance
+
+outside folds
+1. calculate mean performance over folds
+1. fit PCA and regression in full data to generate a consensus connectome
 
