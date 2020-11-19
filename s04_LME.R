@@ -32,6 +32,7 @@ outcomes = c("G_lavaan","S1_lavaan","S2_lavaan","S3_lavaan",
   "pea_ravlt_ld_tc","pea_wiscv_trs","lmt_scr_num_correct")
 
 betas = matrix(NA,nrow=250,ncol=length(outcomes))
+ts = matrix(NA,nrow=250,ncol=length(outcomes))
 
 for (i in 1:length(outcomes)) {
   dependent = outcomes[i]
@@ -42,6 +43,13 @@ for (i in 1:length(outcomes)) {
   model = lmer(formula=fmla, data=dat, na.action='na.exclude')
   
   betas[,i] = coef(summary(model))[2:251,1]
+  ts[,i] = coef(summary(model))[2:251,3]
 }
 
 write.table(betas,file.path(ResultsDir,"mm_betas.csv"),row.names=F,col.names=F,quote=F,na="NaN")
+
+dts = as.data.frame(ts)
+names(dts) = outcomes
+dts$Component = 1:250
+dts = dts[,c("Component",outcomes)]
+write.csv(dts,file.path(ResultsDir,"ABCD_component_ts.csv"),row.names=F,quote=F)
