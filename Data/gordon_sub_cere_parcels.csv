@@ -417,6 +417,4 @@ ParcelID,Hemisphere,Area_or_Volume,Vertices,Centroid_X,Centroid_Y,Centroid_Z,Reg
 416,L,1688,5,-14,-59,-34.7,"Left Dentate",Cerebellum,13
 417,R,1696,1,15.9,-59,-34.8,"Right Dentate",Cerebellum,13
 418,L,256,1,-5.9,-56.9,-29.2,"Left Interposed",Cerebellum,13
-419,R,248,0,7.9,-56.8,-29,"Right Interposed",Cerebellum,13
-420,L,48,0,-1.3,-53,-27.3,"Left Fastigial",Cerebellum,13
-421,R,48,0,3.3,-53,-27.3,"Right Fastigial",Cerebellum,13
+
