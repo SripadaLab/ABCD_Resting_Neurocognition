@@ -39,6 +39,8 @@ fclose(fid);
 betas = load([Exp '/Results/mm_betas.csv']);
 cons = coeffall(:,1:NumComp)*betas;
 
+save([Exp '/Results/all_15_consensus_vector.txt'],'cons','-ASCII');
+
 %%
 %calculate within network and DMN/TPN connections
 zcons = zscore(cons);

@@ -18,21 +18,20 @@ NetNames = {
     'Retrosplenial Temporal'
     };
 
+ZThresh = 3;
+
 allpheno = [mainpheno nihpheno];
 
-for i = 1:15
-    mdl = fitlm([Aall(:,1:NumComp) nuisance],allpheno(:,i));
-    b = mdl.Coefficients.Estimate(2:(NumComp+1));
-    nihcons(:,i) = zscore(coeffall(:,1:NumComp)*b);
-end
+nihcons = zscore(cons);
 
 %calculate per cell suprathrehsold pos/neg per consensus
 supra_pos = NaN*zeros(max(nets),max(nets),size(nihcons,2));
 supra_neg = NaN*zeros(max(nets),max(nets),size(nihcons,2));
 zall = nihcons;
-zall(abs(zall)<2) = 0;
-zall(zall>0) = 1;
-zall(zall<0) = -1;
+% %thresholded
+% zall(abs(zall)<ZThresh) = 0;
+% zall(zall>0) = 1;
+% zall(zall<0) = -1;
 indicies = zeros(max(nets),max(nets),2);
 for i = 1:max(nets)
     for j = i:max(nets)
@@ -47,8 +46,12 @@ for i = 1:max(nets)
         mask(idxi,idxj) = 1;
         mask(idxj,idxi) = 1;
         mask = mc_flatten_upper_triangle(mask)==1;
-        tmpp = sum(zall(mask,:)==1);
-        tmpn = sum(zall(mask,:)==-1);
+%         %thresholded
+%         tmpp = sum(zall(mask,:)>0);
+%         tmpn = sum(zall(mask,:)<0);
+        %weighted
+        tmpp = sum(zall(mask,:).*(zall(mask,:)>0));
+        tmpn = sum(zall(mask,:).*(zall(mask,:)<0));
         supra_pos(i,j,:) = tmpp;
         supra_neg(i,j,:) = tmpn;
     end
@@ -63,12 +66,14 @@ mask1 = std(tmp1,[],2)>0;
 mask2 = std(tmp2,[],2)>0;
 
 va = var([tmp1(mask1,:);tmp2(mask2,:)],[],2);
-plot(sort(va))
+%plot(sort(va))
 
 tmp = cumsum(sort(va,'descend'))/sum(va);
 
+f = find(tmp>0.5);
+
 [~,i] = sort(va,'descend');
-u = i(1:21);
+u = i(1:f(1));
 m1 = [tmp1(mask1,:);tmp2(mask2,:)];
 ind = [ind(mask1,:);ind(mask2,:)];
 [u ind(u,:)]
@@ -93,4 +98,4 @@ lmt = output(:,15);
 network1 = NetNames(ind(u,1));
 network2 = NetNames(ind(u,2));
 output = table(network1,network2,posneg,g,s1,s2,s3,cardsort,flanker,list,pattern,picture,picvocab,reading,ravlt_sd,ravlt_ld,wiscv,lmt);
-writetable(output,[Exp '/Results/network_21_suprathreshold.csv']);
+writetable(output,[Exp sprintf('/Results/network_%d_variance.csv',f(1))]);
