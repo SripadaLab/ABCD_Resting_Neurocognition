@@ -127,7 +127,8 @@ data$Include.rest = data$GoodTime >= 8 & data$runs>=2
 data$Gender[data$Gender==""] = NA
 
 #exclude for any data problems, like NaN ROIs etc
-data$Include.data = !(data$subjectkey %in% c("NDAR_INVJZCYWRZB"))
+nansubs = read.csv(file.path(DataDir,"nan_subs.csv"))
+data$Include.data = !(data$subjectkey %in% nansubs$subjectkey)
 
 data$Include = data$Include.rest & data$Include.data
 
